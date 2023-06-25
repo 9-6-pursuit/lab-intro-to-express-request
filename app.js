@@ -1,16 +1,51 @@
 const express = require("express");
-const app = express();
 
+const app = express();
 const pokemon = require("./models/pokemon.json");
 
 app.get("/", (request, response)=> {
     console.log(pokemon[0])
-    response.send("<h1>Welcome to the home page</h1>")
+    response.send("Welcome 99 Pokemon")
+    })
+
+
+app.get("/pokemon", (request, response)=> {
+    response.send(pokemon)
+    })
+
+//BONUS
+app.get("/pokemon-pretty", (request, response)=> {
+    response.send(pokemon)
+    })
+
+
+app.get("/pokemon", (request, response)=> {
+    response.send(pokemon)
+    })
+// 
+
+app.get("/pokemon/search", (request, response)=> {
+    let pokemonName = request.query.name
+    let targetPokemon = pokemon.find((poke) => {
+        return poke.name.toLowerCase() === pokemonName.toLowerCase()
+    })
+    response.send(targetPokemon)
+    })
+
+
+app.get("/pokemon/:index", (request, response)=> {
+        let index = request.params.index
+        
+        if(pokemon[index]){
+            response.send(pokemon[index])
+        }else {
+            response.send(`Sorry, no pokemon found at ${index}`)
+       }
     })
 
 
 app.get("/:verb/:adjective/:noun", (request, response)=> {
-    response.send(`Congratulations you have made a new project called ${request.params.verb}-${request.params.adjective}-${request.params.noun}.`)
+    response.send(`Congratulations on starting a new project called ${request.params.verb}-${request.params.adjective}-${request.params.noun}!`)
     })
 
 
@@ -23,7 +58,7 @@ app.get("/bugs", (request, response)=> {
 
         
 app.get("/bugs/:number", (request, response)=> {
-    if(request.params.number <= 200){
+    if(request.params.number <= 199){
        
         response.send(`<div>
         <h3>${request.params.number} little bugs in the code</h3>
@@ -33,7 +68,7 @@ app.get("/bugs/:number", (request, response)=> {
     }else {
         response.send(`<div>
         <h3>${request.params.number} little bugs in the code</h3>
-        <a href="/bugs">Start Over</a>
+        <a href="/bugs">Too many bugs!! Start over!</a>
         </div>`);
     }
         })
