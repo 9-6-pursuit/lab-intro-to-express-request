@@ -51,6 +51,21 @@ app.get("/bugs/:numberOfBugs", (req, res) => {
   res.send(responseHTML);
 });
 
+//POKE-EXPRESS
+app.get("/pokemon", (req, res) => {
+  res.send(pokemon);
+});
+app.get("/pokemon/:indexOfArray", (req, res) => {
+  const { indexOfArray } = req.params;
+  const index = parseInt(indexOfArray);
 
+  if (index >= 0 && index < pokemon.length) {
+    const poke = pokemon[index];
+    res.send(poke);
+  } else {
+    const errorMessage = `Sorry, no Pokémon found at /pokemon/${indexOfArray}`;
+    res.send(errorMessage);
+  }
+});
 // EXPORT
 module.exports = app;
