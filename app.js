@@ -9,7 +9,7 @@ const app = express();
 
 // PROJECT NAME GENERATOR ROUTE
 app.get("/", (req, res) => {
-  res.send("<h2>Let's get started<h2>");
+  res.send("Welcome 99 Pokemon");
 });
 // : NON SPECIFIC URL PARAMETERS
 /*app.get("/:verb/:adjective/:noun", (req, res) => {
@@ -23,8 +23,8 @@ app.get("/", (req, res) => {
 });*/
 app.get("/:verb/:adjective/:noun", (req, res) => {
   const { verb, adjective, noun } = req.params;
-  const message = `Congratulations on starting a new project called ${verb}-${adjective}-${noun}`;
-  const htmlResponse = `<h1>${message}</h1>`;
+  const message = `Congratulations on starting a new project called ${verb}-${adjective}-${noun}!`;
+  const htmlResponse = `${message}`;
   res.send(htmlResponse);
 });
 
@@ -35,7 +35,6 @@ app.get("/bugs", (req, res) => {
   <a href="bugs/101">pull one down, patch it around</a>
     </div>`);
 });
-
 // http://localhost:8888/bugs/1000
 app.get("/bugs/:numberOfBugs", (req, res) => {
   const { numberOfBugs } = req.params;
@@ -46,15 +45,24 @@ app.get("/bugs/:numberOfBugs", (req, res) => {
     const nextBugCount = numOfBugs + 2;
     responseHTML += `<a href="/bugs/${nextBugCount}">Pull one down, patch it around</a>`;
   } else {
-    responseHTML += `<a href="/">Start over</a>`;
+    responseHTML = `<a href="/">Too many bugs!! Start over!</a>`;
   }
   res.send(responseHTML);
 });
 
-//POKE-EXPRESS
+//POKE-EXPRESS ROUTES
 app.get("/pokemon", (req, res) => {
   res.send(pokemon);
 });
+///localhost:8888/pokemon/search?name=oddish
+app.get("/pokemon/search", (req, res) => {
+  const { name } = req.query;
+  const poki = pokemon.find((pokemon) => {
+    return pokemon.name.toLowerCase() === name.toLowerCase();
+  });
+  res.send(poki ? [poki] : []);
+});
+// http://localhost:8888/pokemon/17
 app.get("/pokemon/:indexOfArray", (req, res) => {
   const { indexOfArray } = req.params;
   const index = parseInt(indexOfArray);
@@ -63,9 +71,10 @@ app.get("/pokemon/:indexOfArray", (req, res) => {
     const poke = pokemon[index];
     res.send(poke);
   } else {
-    const errorMessage = `Sorry, no Pokémon found at /pokemon/${indexOfArray}`;
+    const errorMessage = `Sorry, no pokemon found at ${indexOfArray}`;
     res.send(errorMessage);
   }
 });
+
 // EXPORT
 module.exports = app;
