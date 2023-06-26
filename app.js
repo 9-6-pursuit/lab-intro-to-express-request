@@ -28,6 +28,29 @@ app.get("/:verb/:adjective/:noun", (req, res) => {
   res.send(htmlResponse);
 });
 
+// 99 LITTLE BUGS IN CODE ROUTES
+app.get("/bugs", (req, res) => {
+  res.send(`<div> 
+  <h3>99 little bugs in the code</h3>
+  <a href="bugs/101">pull one down, patch it around</a>
+    </div>`);
+});
+
+// http://localhost:8888/bugs/1000
+app.get("/bugs/:numberOfBugs", (req, res) => {
+  const { numberOfBugs } = req.params;
+  const numOfBugs = Number(numberOfBugs);
+  let responseHTML = `<h3>${numOfBugs} little bugs in the code</h3>`;
+
+  if (numOfBugs < 200) {
+    const nextBugCount = numOfBugs + 2;
+    responseHTML += `<a href="/bugs/${nextBugCount}">Pull one down, patch it around</a>`;
+  } else {
+    responseHTML += `<a href="/">Start over</a>`;
+  }
+  res.send(responseHTML);
+});
+
 
 // EXPORT
 module.exports = app;
