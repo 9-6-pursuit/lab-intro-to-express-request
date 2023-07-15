@@ -29,11 +29,17 @@ app.get("/bugs", (req, res) => {
 });
 
 app.get("/bugs/:numberOfBugs", (req, res) => {
-  res.send(`<div>
-    <h3>${req.params.numberOfBugs} little bugs in the code</h3>
-    <a href="${Number(req.params.numberOfBugs) +2 }">pull one down, patch it around</a>
-  </div>`);
- 
+  if (req.params.numberOfBugs <= 200) {
+    res.send(`<div>
+      <h3>${req.params.numberOfBugs} little bugs in the code</h3>
+      <a href="${Number(req.params.numberOfBugs) +2 }">pull one down, patch it around</a>
+    </div>`);
+  } else {
+      res.send(`<div>
+        <h3>${req.params.numberOfBugs} little bugs in the code</h3>
+        <a href="/bugs">start over</a>
+      </div>`);
+    }
 });
 
 
