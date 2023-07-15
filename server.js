@@ -7,5 +7,5 @@ const PORT = process.env.PORT;
 
 // LISTEN
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT} for lab-intro-express-request `);
+  console.log(`Listening on port ${PORT} for lab-intro-to-express `);
 });
