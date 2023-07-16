@@ -5,9 +5,10 @@ const express = require("express");
 // CONFIGURATION
 const app = express();
 
+
 // ROUTES
 app.get("/", (req, res) => {
-  res.send("Welcome to the current home page.");
+  res.send("Welcome 99 Pokemon");
 });
 
  
@@ -15,7 +16,7 @@ app.get("/", (req, res) => {
 
 app.get("/:verb/:adjective/:noun", (req, res) => {
     console.log(req.params)
-    res.send(`Congratulations on starting a project called ${req.params.verb} ${req.params.adjective} ${req.params.noun}`);
+    res.send(`Congratulations on starting a new project called ${req.params.verb}-${req.params.adjective}-${req.params.noun}!`);
   });
 
   //  BUGS
@@ -23,33 +24,58 @@ app.get("/:verb/:adjective/:noun", (req, res) => {
 app.get("/bugs", (req, res) => {
   console.log(req.params)
   res.send(`<div>
-    <h3>99 little bugs in the code<h3>
-    <a href="bugs/101">pull one down, patch it around</a>
+    <h1>99 little bugs in the code</h1>
+    <a href="bugs/101">pPull one down, patch it around</a>
   </div>`);
 });
 
 app.get("/bugs/:numberOfBugs", (req, res) => {
-  if (req.params.numberOfBugs <= 200) {
+  if (req.params.numberOfBugs < 200) {
     res.send(`<div>
       <h3>${req.params.numberOfBugs} little bugs in the code</h3>
-      <a href="${Number(req.params.numberOfBugs) +2 }">pull one down, patch it around</a>
+      <a href="${Number(req.params.numberOfBugs) +2 }">Pull one down, patch it around</a>
     </div>`);
   } else {
       res.send(`<div>
         <h3>${req.params.numberOfBugs} little bugs in the code</h3>
-        <a href="/bugs">start over</a>
+        <a href="/bugs">Too many bugs!! Start over!</a>
       </div>`);
     }
+});
+
+    //-------- POKEMON ---------------
+
+const pokemon = require("./models/pokemon.json");
+
+
+app.get("/pokemon", (req, res) => {
+  res.send(pokemon);
+});
+
+
+
+app.get("/pokemon/search", (req, res) => {
+  res.send();
+
+  //pokemon search requirements would go here.
+
+  
+});
+
+
+
+app.get("/pokemon/:index", (req, res) => {
+  const { index } = req.params;
+  if( pokemon[index] ) {
+    res.send(pokemon[index]);
+  } else {
+    res.send (`Sorry, no pokemon found at ${index}`);
+  }
 });
 
 
 
 
-
-// app.get("/rocks/:index", (req, res) => {
-//     const { index } = req.params; 
-//     res.send(rocks[index]);
-//   });
 
 // EXPORT
 module.exports = app;
